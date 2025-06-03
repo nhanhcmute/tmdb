@@ -1,0 +1,43 @@
+.circular-div {
+  position: absolute;
+  top: -22px;
+  height: 38px;
+  width: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #081c22;
+  border-radius: 50%;
+  padding: 2px;
+
+  span {
+    position: absolute;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+
+    sup {
+      font-size: 5px;
+    }
+  }
+}
+.scale-div {
+  position: relative;
+  // transform: scale(1.95);
+  height: 60px;
+  width: 60px;
+  top: 0;
+  cursor: pointer;
+
+  .large-span-font {
+    font-size: 25px;
+
+    .large-sup-font {
+      font-size: 10px;
+    }
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

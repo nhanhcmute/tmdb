@@ -1,0 +1,262 @@
+.container {
+  .movies-div {
+    width: 100%;
+    padding: 30px 40px 40px 30px;
+
+    .title {
+      width: 100%;
+      margin-bottom: 20px;
+
+      h2 {
+        font-size: 1.6em;
+      }
+    }
+  }
+}
+
+.content-wrapper {
+  display: flex;
+  gap: 2rem;
+
+  .movies-list-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    row-gap: 2rem;
+  }
+
+  .search-movies-div {
+    width: 100%;
+    max-width: 258px;
+
+    .mt {
+      margin-top: 12px;
+    }
+
+    .border-color-shadow {
+      background: $secondary-color;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e3e3e3;
+      border-radius: 8px;
+    }
+
+    .name {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 16px;
+      align-items: center;
+      cursor: pointer;
+
+      h2 {
+        font-size: 1.1em;
+      }
+
+      .closed {
+        transform: rotate(0);
+      }
+
+      img {
+        width: 16px;
+        transform: rotate(90deg);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.more-info-div {
+  width: 100%;
+  padding: 14px 16px;
+  border-top: 1px solid #eee;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+}
+
+// filter
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  border-top: 1px solid #eee;
+  padding: 14px 16px 16px 16px;
+
+  h3 {
+    width: 100%;
+    font-size: 1em;
+    font-weight: 300;
+  }
+
+  label.ml {
+    margin-left: 4px;
+    cursor: pointer;
+  }
+
+  .radio-input {
+    border-radius: 50%;
+    margin: 0;
+    width: 1rem;
+    height: 1rem;
+    border-width: 1px;
+    border-style: solid;
+    outline: 0;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    -webkit-appearance: none;
+    color: transparent;
+    background-color: #fff;
+    border-color: #adb5bd;
+  }
+
+  .radio-input::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background-color: currentColor;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    left: 50%;
+    border-radius: 50%;
+    transform: scale(1) translate(-50%, -50%);
+  }
+
+  .radio-input:checked {
+    border-color: rgba(1, 180, 228, 1);
+    color: #fff;
+    background-color: rgba(1, 180, 228, 1);
+  }
+}
+
+.load-more-div {
+  height: 50px;
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: rgba(1, 180, 228, 1);
+  justify-content: center;
+  border-radius: 8px;
+  grid-column: span 5;
+
+  .load-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 700;
+    color: $secondary-color;
+
+    &:hover {
+      color: #0a1526;
+    }
+  }
+}
+
+// filter availibility div
+label {
+  display: flex;
+  align-items: center;
+  .availability-input {
+    position: relative;
+    min-height: 16px;
+    min-width: 16px;
+    border: 1px solid #adb5bd;
+    color: transparent;
+    background: #fff;
+    outline: 0;
+    &::before {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23ffffff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e");
+      width: 16px;
+      height: 16px;
+      font-size: 1rem;
+      line-height: 1;
+      border-radius: 0.25rem;
+      transform: scale(1) translate(-50%, -50%);
+      overflow: hidden;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      content: "";
+      cursor: pointer;
+      background-repeat: no-repeat;
+      background-size: 50%;
+      background-position: 50%;
+    }
+    &:checked {
+      box-shadow: none;
+      border-color: rgb(1, 180, 228);
+      color: #fff;
+      background-color: rgb(1, 180, 228);
+      appearance: none;
+      border-radius: 0.25rem;
+      display: inline-block;
+      min-width: 16px;
+      height: 16px;
+      width: 16px;
+    }
+  }
+}
+
+.availability-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+// Release Date Section
+.filter {
+  .release-date-heading {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+}
+
+// genres section
+.filter {
+  .genres-heading {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+  .genres-nav {
+    li {
+      border: 1px solid #9e9e9e;
+      border-radius: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      font-size: 0.9em;
+      margin-right: 6px;
+      margin-top: 8px;
+      padding: 4px 12px;
+
+      &:hover {
+        background-color: rgba(1, 180, 228, 1);
+        color: $secondary-color;
+        border-color: rgba(1, 180, 228, 1);
+      }
+    }
+  }
+}
+
+.active-genre {
+  background-color: rgba(1, 180, 228, 1);
+  border-color: rgba(1, 180, 228, 1);
+  color: $secondary-color;
+}
