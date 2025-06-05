@@ -1,4 +1,5 @@
 import React from "react";
+import { Box, Typography } from "@mui/material";
 import dummyImage from "../../../../../assets/images/dummy_image.svg";
 
 function CastCard({ cast }) {
@@ -6,16 +7,24 @@ function CastCard({ cast }) {
     cast.profile_path === null
       ? dummyImage
       : `https://www.themoviedb.org/t/p/w138_and_h175_face${cast.profile_path}`;
+
   return (
-    <>
-      <div className="single-cast-card">
-        <div className="cast-img-div">
-          <img src={castImage} alt="cast Image" />
-        </div>
-        <p className="cast-original-name">{cast.original_name}</p>
-        <p className="cast-character-name">{cast.character}</p>
-      </div>
-    </>
+    <Box className="single-cast-card">
+      <Box className="cast-img-div">
+        <Box
+          component="img"
+          src={castImage}
+          alt="cast Image"
+          sx={{ width: "100%", height: "auto", display: "block" }}
+        />
+      </Box>
+      <Typography variant="body2" className="cast-original-name" component="p">
+        {cast.original_name}
+      </Typography>
+      <Typography variant="body2" className="cast-character-name" component="p">
+        {cast.character}
+      </Typography>
+    </Box>
   );
 }
 

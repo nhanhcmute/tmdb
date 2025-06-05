@@ -12,19 +12,26 @@ import {
 } from "../../../../Helpers/Helper";
 import dummyImg from "../../../../assets/images/recommendation_dummy_poster.svg";
 
+// Import các component MUI
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import LinkMui from "@mui/material/Link";
+
 function RecommandedCard({ item }) {
   return (
     <>
       {console.log("RecommandedMOvie Date", item)}
-      <div className="mini-card">
-        <div
+      <Box className="mini-card">
+        <Box
           className={`image-content ${
             selectPosterPath(item.backdrop_path) === false && "border-div"
           }`}
         >
-          <Link
+          <LinkMui
+            component={Link}
             to={`/${item.media_type}/${item.id}`}
             className={!selectPosterPath(item.backdrop_path) && "dummy-poster"}
+            underline="none"
           >
             <img
               src={
@@ -34,15 +41,15 @@ function RecommandedCard({ item }) {
               }
               alt="movie poster"
             />
-          </Link>
-          <div className="meta">
-            <div className="release-date">
+          </LinkMui>
+          <Box className="meta">
+            <Box className="release-date">
               <img src={dateIcon} alt="date Icon" className="date-img" />
-              <span>
+              <Typography component="span">
                 {checkDate(item) !== "false" &&
                   getDate(new Date(item.release_date || item.first_air_date))}
-              </span>
-              <div
+              </Typography>
+              <Box
                 className={`action-img ${
                   item.release_date === "" ||
                   (item.first_air_date === "" && "ml")
@@ -59,22 +66,27 @@ function RecommandedCard({ item }) {
                   alt="star rating icon"
                   className="black-color"
                 />
-              </div>
-            </div>
+              </Box>
+            </Box>
             <span></span>
-          </div>
-        </div>
-        <div className="info-div-recommand">
-          <Link className="name-href" to={`/${item.media_type}/${item.id}`}>
+          </Box>
+        </Box>
+        <Box className="info-div-recommand">
+          <LinkMui
+            component={Link}
+            to={`/${item.media_type}/${item.id}`}
+            className="name-href"
+            underline="none"
+          >
             <bdi title={item.title || item.original_name}>
               {item.title || item.original_name}
             </bdi>
-          </Link>
-          <span className="vote-average">
+          </LinkMui>
+          <Typography className="vote-average" component="span">
             {item.vote_average.toFixed(1) * 10}%
-          </span>
-        </div>
-      </div>
+          </Typography>
+        </Box>
+      </Box>
     </>
   );
 }

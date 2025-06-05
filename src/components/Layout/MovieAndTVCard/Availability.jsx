@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Box, Typography, FormControlLabel, Checkbox, FormGroup } from "@mui/material";
 
 function Availability() {
   const [showAvailability, setShowAvailability] = useState(true);
@@ -8,100 +9,98 @@ function Availability() {
   const [showAds, setShowAds] = useState(true);
   const [showRent, setShowRent] = useState(true);
   const [showBuy, setShowBuy] = useState(true);
+
   return (
-    <div className="filter">
-      <h3 className="availibility-heading">Availabilities</h3>
-      <label>
-        <input
-          type="checkbox"
-          name="availabilities"
-          value="true"
-          id="availability"
-          className="availability-input"
-          checked={showAvailability ? "checked" : ""}
-          onChange={() => setShowAvailability(!showAvailability)}
+    <Box className="filter">
+      <Typography variant="h6" className="availibility-heading">
+        Availabilities
+      </Typography>
+
+      {/* Checkbox "Search all availabilities?" */}
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              id="availability"
+              checked={showAvailability}
+              onChange={() => setShowAvailability(!showAvailability)}
+              className="availability-input"
+            />
+          }
+          label="Search all availabilities?"
+          htmlFor="availability"
         />
-        <label htmlFor="availability" className="ml">
-          Search all availabilities?
-        </label>
-      </label>
-      {/* Availability Wrapper starts from here */}
+      </FormGroup>
+
+      {/* Availability Wrapper starts */}
       {!showAvailability && (
-        <div className="availability-wrapper">
-          <label>
-            <input
-              type="checkbox"
-              name="ott_monetization_type"
-              value="stream"
-              id="ott_monetization_type_stream"
-              className="availability-input"
-              checked={showStream ? "checked" : ""}
-              onChange={() => setShowStream(!showStream)}
+        <Box className="availability-wrapper">
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="ott_monetization_type_stream"
+                  checked={showStream}
+                  onChange={() => setShowStream(!showStream)}
+                  className="availability-input"
+                />
+              }
+              label="Stream"
+              htmlFor="ott_monetization_type_stream"
             />
-            <label htmlFor="ott_monetization_type_stream" className="ml">
-              Stream
-            </label>
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="ott_monetization_type"
-              value="free"
-              id="ott_monetization_type_free"
-              className="availability-input"
-              checked={showFree ? "checked" : ""}
-              onChange={() => setShowFree(!showFree)}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="ott_monetization_type_free"
+                  checked={showFree}
+                  onChange={() => setShowFree(!showFree)}
+                  className="availability-input"
+                />
+              }
+              label="Free"
+              htmlFor="ott_monetization_type_free"
             />
-            <label htmlFor="ott_monetization_type_free" className="ml">
-              Free
-            </label>
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="ott_monetization_type"
-              value="ads"
-              id="ott_monetization_type_ads"
-              className="availability-input"
-              checked={showAds ? "checked" : ""}
-              onChange={() => setShowAds(!showAds)}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="ott_monetization_type_ads"
+                  checked={showAds}
+                  onChange={() => setShowAds(!showAds)}
+                  className="availability-input"
+                />
+              }
+              label="Ads"
+              htmlFor="ott_monetization_type_ads"
             />
-            <label htmlFor="ott_monetization_type_ads" className="ml">
-              Ads
-            </label>
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="ott_monetization_type"
-              value="rent"
-              id="ott_monetization_type_rent"
-              className="availability-input"
-              checked={showRent ? "checked" : ""}
-              onChange={() => setShowRent(!showRent)}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="ott_monetization_type_rent"
+                  checked={showRent}
+                  onChange={() => setShowRent(!showRent)}
+                  className="availability-input"
+                />
+              }
+              label="Rent"
+              htmlFor="ott_monetization_type_rent"
             />
-            <label htmlFor="ott_monetization_type_rent" className="ml">
-              Rent
-            </label>
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="ott_monetization_type"
-              value="buy"
-              id="ott_monetization_type_buy"
-              className="availability-input"
-              checked={showBuy ? "checked" : ""}
-              onChange={() => setShowBuy(!showBuy)}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="ott_monetization_type_buy"
+                  checked={showBuy}
+                  onChange={() => setShowBuy(!showBuy)}
+                  className="availability-input"
+                />
+              }
+              label="Buy"
+              htmlFor="ott_monetization_type_buy"
             />
-            <label htmlFor="ott_monetization_type_buy" className="ml">
-              Buy
-            </label>
-          </label>
-        </div>
+          </FormGroup>
+        </Box>
       )}
-      {/* Availability Wrapper ends from here */}
-    </div>
+      {/* Availability Wrapper ends */}
+    </Box>
   );
 }
 

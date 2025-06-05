@@ -1,5 +1,6 @@
 import React from "react";
 import Movie from "../Section/Trending/Movie/Movie";
+import { Box, Button } from "@mui/material";
 
 function MoviesList({ state, setState, isLoad }) {
   const loadHandler = (e) => {
@@ -7,23 +8,24 @@ function MoviesList({ state, setState, isLoad }) {
     setState((prevState) => ({ ...prevState, isLoad: true }));
     setState((prevState) => ({ ...prevState, page: prevState.page + 1 }));
   };
+
   return (
-    <div className="movies-list-div">
+    <Box className="movies-list-div">
       {/* show movie card */}
       {state?.moviesOrTVShowList?.map((movie) => {
-        return <Movie movie={movie} key={movie.id} addCard="true"></Movie>;
+        return <Movie movie={movie} key={movie.id} addCard="true" />;
       })}
-      <div className="load-more-div">
-        <button
+      <Box className="load-more-div" sx={{ textAlign: "center", mt: 2 }}>
+        <Button
+          variant="contained"
           className="load-btn"
-          onClick={(e) => {
-            loadHandler(e);
-          }}
+          onClick={loadHandler}
+          disabled={isLoad}
         >
           Load More
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Box>
   );
 }
 

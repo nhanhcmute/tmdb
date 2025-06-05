@@ -1,6 +1,7 @@
 import { Circle } from "rc-progress";
-
 import React from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 // calculate Movie Vote
 const calcMovieVote = (vote) => {
@@ -17,23 +18,34 @@ const makeStrokeColor = (percentage) => {
 };
 
 function CircularProgressBar({ movieVote, scale }) {
+  const percentage = calcMovieVote(movieVote);
+  const strokeColor = percentage !== "NR" ? makeStrokeColor(percentage) : "#666";
+
   return (
-    <div className={`circular-div ${scale === "true" && "scale-div"}`}>
+    <Box className={`circular-div ${scale === "true" ? "scale-div" : ""}`}>
       <Circle
         className="circular-progress"
-        strokeColor={makeStrokeColor(calcMovieVote(movieVote))}
+        strokeColor={strokeColor}
         strokeWidth={8}
         trailColor="#1d4028"
         trailWidth={8}
-        percent={calcMovieVote(movieVote) !== "NR" && calcMovieVote(movieVote)}
+        percent={percentage !== "NR" ? percentage : 0}
       />
-      <span className={`${scale === "true" && "large-span-font"}`}>
-        {calcMovieVote(movieVote)}
-        {calcMovieVote(movieVote) !== "NR" && (
-          <sup className={`${scale === "true" && "large-sup-font"}`}>%</sup>
+      <Typography
+        component="span"
+        className={scale === "true" ? "large-span-font" : ""}
+      >
+        {percentage}
+        {percentage !== "NR" && (
+          <Typography
+            component="sup"
+            className={scale === "true" ? "large-sup-font" : ""}
+          >
+            %
+          </Typography>
         )}
-      </span>
-    </div>
+      </Typography>
+    </Box>
   );
 }
 

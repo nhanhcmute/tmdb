@@ -5,13 +5,6 @@ import RecommandedCard from "../Recommanded/RecommandedCard";
 import dummyImage from "../../../../assets/images/recommendation_dummy_poster.svg";
 import { selectPosterPath } from "../../../../Helpers/Helper";
 
-// const API =
-//   "https://api.themoviedb.org/3/movie/868759/recommendations?api_key=700a119d738aa19bfa6867998fafed10";
-
-// https://api.themoviedb.org/3/tv/203504?api_key=15d2ea6d0dc1d476efbca3eba2b9bbfb
-
-// https://api.themoviedb.org/3/movie/868759/keywords?api_key=700a119d738aa19bfa6867998fafed10
-
 const initialState = {
   status: "",
   language: "",
@@ -34,6 +27,31 @@ function CastInfo({ type, id, title }) {
   const scrollDiv = useRef();
   const scroll = useRef();
 
+  // Các hàm fetch phải được khai báo trước useEffect
+  const fetchSeasons = async (url) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.seasons && data.seasons.length > 0) {
+        setSeasons(data.seasons[data.seasons.length - 1]);
+      } else {
+        setSeasons({});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchRecommandationList = async (url) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      setRecommandationList([...data.results]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchCastDetails = async (url) => {
     try {
       const response = await fetch(url);
@@ -48,42 +66,18 @@ function CastInfo({ type, id, title }) {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setMovieDetails((prevState) => {
-        return {
-          ...prevState,
-          status: data.status,
-          language: new Intl.DisplayNames(["en"], { type: "language" }).of(
-            data.original_language
-          ),
-          budget: data.budget,
-          revenue: data.revenue,
-          originalName: data.original_name ? data.original_name : "",
-          network: data?.networks ? data.networks[0].logo_path : "",
-          type: data.type ? data.type : "",
-        };
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchRecommandationList = async (url) => {
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("Recommandation API", data);
-      setRecommandationList([...data.results]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchSeasons = async (url) => {
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("Current Seasons", data);
-      setSeasons(data.seasons[data.seasons.length - 1]);
+      setMovieDetails((prevState) => ({
+        ...prevState,
+        status: data.status,
+        language: new Intl.DisplayNames(["en"], { type: "language" }).of(
+          data.original_language
+        ),
+        budget: data.budget,
+        revenue: data.revenue,
+        originalName: data.original_name ? data.original_name : "",
+        network: data?.networks ? data.networks[0].logo_path : "",
+        type: data.type ? data.type : "",
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +87,6 @@ function CastInfo({ type, id, title }) {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log("keywords", data);
       setKeywords(type === "movie" ? [...data?.keywords] : [...data?.results]);
     } catch (error) {
       console.log(error);
@@ -132,11 +125,6 @@ function CastInfo({ type, id, title }) {
 
   return (
     <>
-      {console.log("RecommandedList", recommandationList)}
-      {console.log("Current Season", seasons)}
-      {console.log("cast", castInfo)}
-      {console.log("Keywords", keywords)}
-      {console.log("Movie Details", movieDetails)}
       <div className="left-info-div">
         <div className="white-column-div">
           <section
@@ -157,9 +145,9 @@ function CastInfo({ type, id, title }) {
                     else setIsScrollCast(true);
                   }}
                 >
-                  {castInfo.slice(0, 9).map((cast) => {
-                    return <CastCard cast={cast} />;
-                  })}
+                  {castInfo.slice(0, 9).map((cast) => (
+                    <CastCard key={cast.cast_id || cast.credit_id} cast={cast} />
+                  ))}
                 </div>
                 <p>
                   <a href="#">Full Cast & Crew</a>
@@ -173,8 +161,7 @@ function CastInfo({ type, id, title }) {
             )}
           </section>
 
-          {/* current season section starts from here and iw would be display if type is tv*/}
-          {type == "tv" && (
+          {type === "tv" && (
             <section className="current-season">
               <h3>Current Season</h3>
               <div className="season-card">
@@ -200,8 +187,8 @@ function CastInfo({ type, id, title }) {
                     <div className="season-content">
                       <h2>{seasons.name}</h2>
                       <h4>
-                        {seasons.air_date?.slice(0, 4)} |{" "}
-                        {seasons.episode_count} Episodes
+                        {seasons.air_date?.slice(0, 4)} | {seasons.episode_count}{" "}
+                        Episodes
                       </h4>
                       <p>{seasons.overview}</p>
                     </div>
@@ -210,54 +197,44 @@ function CastInfo({ type, id, title }) {
               </div>
             </section>
           )}
-          {/* current season section end from here */}
 
-          {/* Social Info Section starts from here */}
           <section className="social-section">
             <SocialInfo type={type} id={id} title={title} />
           </section>
-          {/* Social Info Section ends from here */}
-          {/* <section className="media-section"></section> */}
-          {/* Recommandation section starts from here */}
+
           <section className="recommandation-section">
             <h3>Recommendations</h3>
             {recommandationList.length > 0 ? (
-              <>
+              <div
+                className={`recommandation-container should-fade ${
+                  isScroll ? "is-not-fading" : "is-fading"
+                }`}
+              >
                 <div
-                  className={`recommandation-container should-fade ${
-                    isScroll ? "is-not-fading" : "is-fading"
-                  }`}
+                  className="scroller"
+                  ref={scrollDiv}
+                  onScroll={() => {
+                    const scrollPoint = scrollDiv.current.scrollLeft;
+                    if (scrollPoint >= 0 && scrollPoint <= 50) setIsScroll(false);
+                    else setIsScroll(true);
+                  }}
                 >
-                  <div
-                    className="scroller"
-                    ref={scrollDiv}
-                    onScroll={() => {
-                      const scrollPoint = scrollDiv.current.scrollLeft;
-                      if (scrollPoint >= 0 && scrollPoint <= 50)
-                        setIsScroll(false);
-                      else setIsScroll(true);
-                    }}
-                  >
-                    {recommandationList.map((item) => {
-                      return <RecommandedCard item={item} />;
-                    })}
-                  </div>
+                  {recommandationList.map((item) => (
+                    <RecommandedCard key={item.id} item={item} />
+                  ))}
                 </div>
-              </>
+              </div>
             ) : (
               `We don't have enough data to suggest any movies based on ${title}. You can help by rating movies you've seen.`
             )}
           </section>
-          {/* Recommandation section ends from here */}
         </div>
       </div>
 
-      {/* Keywords section starts from here */}
       <div className="right-info-div">
         <section className="keyword-section">
-          {console.log("yes tv keywords", keywords)}
           <div className="facts-column">
-            {movieDetails.originalName != "" && (
+            {movieDetails.originalName !== "" && (
               <p>
                 <strong>Original Name</strong>
                 {movieDetails.originalName}
@@ -267,8 +244,7 @@ function CastInfo({ type, id, title }) {
               <strong>Status</strong>
               {movieDetails.status}
             </p>
-            {/* network and types for the TV show */}
-            {movieDetails.network != "" && (
+            {movieDetails.network !== "" && (
               <p>
                 <strong>Network</strong>
                 <img
@@ -278,29 +254,28 @@ function CastInfo({ type, id, title }) {
                 />
               </p>
             )}
-            {movieDetails.type != "" && (
+            {movieDetails.type !== "" && (
               <p>
                 <strong>Type</strong>
                 {movieDetails.type}
               </p>
             )}
-            {/* network and types for the TV show */}
             <p>
               <strong>Original Language</strong>
               {movieDetails.language}
             </p>
-            {movieDetails.budget != undefined &&
-              movieDetails.revenue != undefined && (
+            {movieDetails.budget !== undefined &&
+              movieDetails.revenue !== undefined && (
                 <>
                   <p>
                     <strong>Budget</strong>
-                    {movieDetails.budget != 0
+                    {movieDetails.budget !== 0
                       ? "$" + movieDetails.budget + ".00"
                       : "-"}
                   </p>
                   <p style={{ margin: "0" }}>
                     <strong>Revenue</strong>
-                    {movieDetails.revenue != 0
+                    {movieDetails.revenue !== 0
                       ? "$" + movieDetails.revenue + ".00"
                       : "-"}
                   </p>
@@ -312,7 +287,7 @@ function CastInfo({ type, id, title }) {
             <ul>
               {keywords.length > 0
                 ? keywords.map((keyword) => (
-                    <li>
+                    <li key={keyword.id || keyword.name}>
                       <a>{keyword.name}</a>
                     </li>
                   ))
@@ -321,7 +296,6 @@ function CastInfo({ type, id, title }) {
           </div>
         </section>
       </div>
-      {/* Keywords section ends from here*/}
     </>
   );
 }

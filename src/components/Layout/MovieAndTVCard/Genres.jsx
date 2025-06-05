@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-// https://api.themoviedb.org/3/genre/movie/list?api_key=<<api_key>>&language=en-US
+import { Typography, List, ListItem, ListItemButton } from "@mui/material";
 
 function Genres() {
   const [genres, setGenres] = useState([]);
@@ -24,27 +23,36 @@ function Genres() {
 
   return (
     <div className="filter">
-      <h3 className="genres-heading">Genres</h3>
-      <ul className="genres-nav">
+      <Typography variant="h6" component="h3" className="genres-heading">
+        Genres
+      </Typography>
+      <List className="genres-nav" disablePadding>
         {console.log("array is ", selectedGenresId)}
         {genres.map((genre) => {
+          const isSelected = selectedGenresId.includes(genre.id);
           return (
-            <>
-              <li
-                className={
-                  selectedGenresId.includes(genre.id) ? "active-genre" : ""
-                }
-                key={genre.id}
-                onClick={() => {
+            <ListItem
+              key={genre.id}
+              disablePadding
+              className={isSelected ? "active-genre" : ""}
+              onClick={() => {
+                if (!isSelected) {
                   setSelectedGenresId((prevState) => [...prevState, genre.id]);
-                }}
-              >
+                } else {
+                  // Nếu muốn bỏ chọn khi click lại (optional)
+                  setSelectedGenresId((prevState) =>
+                    prevState.filter((id) => id !== genre.id)
+                  );
+                }
+              }}
+            >
+              <ListItemButton>
                 {genre.name}
-              </li>
-            </>
+              </ListItemButton>
+            </ListItem>
           );
         })}
-      </ul>
+      </List>
     </div>
   );
 }

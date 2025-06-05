@@ -16,16 +16,8 @@ import favouriteIcon from "../../../assets/images/favourite_icon.svg";
 import bookmarkIcon from "../../../assets/images/bookmark_icon.svg";
 import starIcon from "../../../assets/images/star_rating_icon.svg";
 
-// const API =
-//   "https://api.themoviedb.org/3/movie/{movie_id}?api_key=700a119d738aa19bfa6867998fafed10&language=en-US";
-
-// const API =
-//   "https://api.themoviedb.org/3/tv/{tv_id}?api_key=700a119d738aa19bfa6867998fafed10&language=en-US";
-
-// const VIDEOAPI =
-//   "https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key=700a119d738aa19bfa6867998fafed10&language=en-US";
-
-// https://api.themoviedb.org/3/tv/{tv_id}/videos?api_key=<<api_key>>&language=en-US
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 const initialState = {
   posterPath: "",
@@ -46,7 +38,6 @@ const initialState = {
 
 function InfoCard() {
   const [cardInfo, setCardInfo] = useState(initialState);
-
   const { type, id } = useParams();
 
   const fetchInfo = async (url) => {
@@ -55,28 +46,22 @@ function InfoCard() {
       const data = await response.json();
 
       if (data.status_code !== 34) {
-        setCardInfo((prevState) => {
-          return {
-            ...prevState,
-            posterPath: data.poster_path,
-            backdrop: data.backdrop_path,
-            title: data.original_title ? data.original_title : data.name,
-            year: data.release_date
-              ? data.release_date?.substring(0, 4)
-              : data?.last_air_date?.substring(0, 4),
-            releasedDate: data.release_date
-              ? data.release_date
-              : data?.last_air_date,
-            genres: data.genres,
-            runTime: data.runtime
-              ? toHours(data.runtime)
-              : toHours(data.episode_run_time),
-            country: findOriginCountry(data),
-            tagLine: data?.tagline,
-            overView: data?.overview,
-            voteAvg: data?.vote_average,
-          };
-        });
+        setCardInfo((prevState) => ({
+          ...prevState,
+          posterPath: data.poster_path,
+          backdrop: data.backdrop_path,
+          title: data.original_title ? data.original_title : data.name,
+          year: data.release_date
+            ? data.release_date.substring(0, 4)
+            : data?.last_air_date?.substring(0, 4),
+          releasedDate: data.release_date ? data.release_date : data?.last_air_date,
+          genres: data.genres,
+          runTime: data.runtime ? toHours(data.runtime) : toHours(data.episode_run_time),
+          country: findOriginCountry(data),
+          tagLine: data?.tagline,
+          overView: data?.overview,
+          voteAvg: data?.vote_average,
+        }));
       }
     } catch (error) {
       console.log(error);
@@ -87,12 +72,10 @@ function InfoCard() {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setCardInfo((prev) => {
-        return {
-          ...prev,
-          videoKey: data?.results[0] === null ? null : data?.results[0]?.key,
-        };
-      });
+      setCardInfo((prev) => ({
+        ...prev,
+        videoKey: data?.results[0] === null ? null : data?.results[0]?.key,
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -102,14 +85,12 @@ function InfoCard() {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setCardInfo((prev) => {
-        return {
-          ...prev,
-          providers: data?.results?.IN ? data.results.IN : null,
-          providerChannelLogoPath: getStreamingLogo(data?.results?.IN),
-          getStreamingChannelName: getStreamingChannelName(data?.results?.IN),
-        };
-      });
+      setCardInfo((prev) => ({
+        ...prev,
+        providers: data?.results?.IN ? data.results.IN : null,
+        providerChannelLogoPath: getStreamingLogo(data?.results?.IN),
+        providerStreamingChannel: getStreamingChannelName(data?.results?.IN),
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -129,57 +110,27 @@ function InfoCard() {
 
   return (
     <>
-      {console.log(cardInfo)}
-      {/* {console.log(cardInfo)}
-      {console.log("providers is available", cardInfo.providers)}
-      {console.log(
-        "provider channel logo path",
-        cardInfo.providerChannelLogoPath
-      )} */}
-
-      {/* header of moreinfo starts from here */}
-      {/* <div className="info-nav">
-        <nav>
-          <ul className="info-ul">
-            <li className="active">
-              <a href="#">Overview</a>
-            </li>
-            <li>
-              <a href="#">Media</a>
-            </li>
-            <li>
-              <a href="#">Fandom</a>
-            </li>
-            <li>
-              <a href="#">Share</a>
-            </li>
-          </ul>
-        </nav>
-      </div> */}
-      {/* header of moreinfo ends from here*/}
-
-      {/* poster image and info starts from here */}
-      <div
+      <Box
         className="backdrop-div"
-        style={{
+        sx={{
           backgroundImage: `url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${cardInfo.backdrop})`,
         }}
       >
-        <div className="more-info-poster-div">
-          <div className="container mt-0">
-            <div className="more-info-wrapper">
-              <section className="poster-content">
-                <div className="poster-wrapper">
+        <Box className="more-info-poster-div">
+          <Box className="container mt-0">
+            <Box className="more-info-wrapper">
+              <Box component="section" className="poster-content">
+                <Box className="poster-wrapper">
                   <img
                     src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${cardInfo.posterPath}`}
-                    alt="image"
+                    alt="poster"
                   />
                   {cardInfo.providers && (
-                    <div className="ott-offer">
-                      <div className="text-wrapper">
-                        <div className="button">
-                          <div className="provider">
-                            {cardInfo.providerChannelLogoPath != "" ? (
+                    <Box className="ott-offer">
+                      <Box className="text-wrapper">
+                        <Box className="button">
+                          <Box className="provider">
+                            {cardInfo.providerChannelLogoPath !== "" ? (
                               <img
                                 src={`https://image.tmdb.org/t/p/original${cardInfo.providerChannelLogoPath}`}
                                 alt="provider channel"
@@ -187,96 +138,90 @@ function InfoCard() {
                             ) : (
                               cardInfo.providerStreamingChannel
                             )}
-                          </div>
-                          <div className="text">
-                            <h4>Now Streaming</h4>
-                            <h3>Watch Now</h3>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                          </Box>
+                          <Box className="text">
+                            <Typography variant="h6" component="h4">
+                              Now Streaming
+                            </Typography>
+                            <Typography variant="h5" component="h3">
+                              Watch Now
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Box>
                   )}
-                </div>
-                <div className="content-wrappers">
-                  <div className="header-content">
-                    <div className="title-info">
-                      <h2>
+                </Box>
+                <Box className="content-wrappers">
+                  <Box className="header-content">
+                    <Box className="title-info">
+                      <Typography variant="h4" component="h2">
                         {cardInfo.title}
                         <span>{` (${cardInfo.year})`}</span>
-                      </h2>
-                      <div className="facts">
+                      </Typography>
+                      <Box className="facts">
                         <span className="release">
-                          {`${formatDate(
-                            new Date(cardInfo.releasedDate),
-                            true
-                          )}(${cardInfo.country})`}
+                          {`${formatDate(new Date(cardInfo.releasedDate), true)}(${cardInfo.country})`}
                         </span>
-                        <span className="genres before">
-                          {generateGenreName(cardInfo.genres)}
-                        </span>
-                        {cardInfo.runTime != "m" && (
-                          <span className="runtime before">
-                            {cardInfo.runTime}
-                          </span>
+                        <span className="genres before">{generateGenreName(cardInfo.genres)}</span>
+                        {cardInfo.runTime !== "m" && (
+                          <span className="runtime before">{cardInfo.runTime}</span>
                         )}
-                      </div>
-                    </div>
-                    <div className="score-info">
-                      <CircularProgressBar
-                        movieVote={cardInfo.voteAvg}
-                        scale="true"
-                      />
-                      <div className="user-score">
+                      </Box>
+                    </Box>
+                    <Box className="score-info">
+                      <CircularProgressBar movieVote={cardInfo.voteAvg} scale="true" />
+                      <Box className="user-score">
                         User <br /> Score
-                      </div>
-                      {/* buttons starts from here */}
-                      <div className="add-to-list-btn action-btns">
+                      </Box>
+                      {/* buttons */}
+                      <Box className="add-to-list-btn action-btns">
                         <img src={thumbnailIcon} alt="thumbnail icon" />
-                      </div>
-                      <div className="fav-btn action-btns">
+                      </Box>
+                      <Box className="fav-btn action-btns">
                         <img src={favouriteIcon} alt="favourite icon" />
-                      </div>
-                      <div className="bookmark-btn action-btns">
+                      </Box>
+                      <Box className="bookmark-btn action-btns">
                         <img src={bookmarkIcon} alt="bookmark icon" />
-                      </div>
-                      <div className="star-btn action-btns">
+                      </Box>
+                      <Box className="star-btn action-btns">
                         <img src={starIcon} alt="star icon" />
-                      </div>
-                      {/* buttons ends from here */}
+                      </Box>
+                      {/* video play button */}
                       {cardInfo.videoKey && (
-                        <div className="play-div">
-                          <a
-                            href={`https://www.youtube.com/watch?v=${cardInfo.videoKey}`}
-                          >
-                            <img src={playIcon} alt="" />
+                        <Box className="play-div">
+                          <a href={`https://www.youtube.com/watch?v=${cardInfo.videoKey}`}>
+                            <img src={playIcon} alt="play trailer" />
                             <span>Play Trailer</span>
                           </a>
-                        </div>
+                        </Box>
                       )}
-                    </div>
-                    <div className="overview-info">
+                    </Box>
+                    <Box className="overview-info">
                       {cardInfo.tagLine && (
-                        <h3 className="tagline">{cardInfo.tagLine}</h3>
+                        <Typography variant="h6" className="tagline" component="h3">
+                          {cardInfo.tagLine}
+                        </Typography>
                       )}
-                      <h3 className="overview">Overview</h3>
-                      <p>{cardInfo.overView}</p>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* poster image and info ends from here */}
+                      <Typography variant="h5" className="overview" component="h3">
+                        Overview
+                      </Typography>
+                      <Typography component="p">{cardInfo.overView}</Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
 
-      {/* Cast Section starts from here */}
-      <div className="container remove-mt">
-        <div className="div-content-wrapper">
+      {/* Cast Section */}
+      <Box className="container remove-mt">
+        <Box className="div-content-wrapper">
           <CastInfo title={cardInfo.title} type={type} id={id} />
-        </div>
-      </div>
-      {/* Cast Section ends from here */}
+        </Box>
+      </Box>
     </>
   );
 }

@@ -4,93 +4,69 @@ import Availability from "./Availability";
 import ReleaseDate from "./ReleaseDate";
 import Genres from "./Genres";
 
+import {
+  Box,
+  Typography,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Collapse,
+} from "@mui/material";
+
 function Filter() {
   const [filterIsOpen, setFilterIsOpen] = useState(false);
   const [showMe, setShowMe] = useState(0);
 
   return (
-    <div className="filter-div border-color-shadow mt">
-      <div className="name" onClick={() => setFilterIsOpen(!filterIsOpen)}>
-        <h2>Filters</h2>
-        <img
+    <Box className="filter-div border-color-shadow mt">
+      <Box className="name" onClick={() => setFilterIsOpen(!filterIsOpen)} sx={{ cursor: "pointer" }}>
+        <Typography variant="h5">Filters</Typography>
+        <Box
+          component="img"
           src={Chevron}
           alt="chevron image"
-          className={`${!filterIsOpen && "closed"}`}
+          className={`${!filterIsOpen ? "closed" : ""}`}
+          sx={{ userSelect: "none" }}
         />
-      </div>
-      {filterIsOpen && (
-        <>
-          {/* Show ME Div starts from here */}
-          <div className="filter">
-            <h3>Show Me</h3>
-            <label>
-              <input
-                type="radio"
-                value="0"
-                name="showme"
-                id="everything"
-                className="radio-input"
-                onChange={(e) => {
-                  setShowMe(Number(e.target.value));
-                }}
-                //   checked={`${isChecked === 0}` ? true : false}
-                checked={showMe === 0 ? "checked" : ""}
-              />
-              <label htmlFor="everything" className="ml">
-                Everything
-              </label>
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="1"
-                name="showme"
-                id="not_seen"
-                className="radio-input"
-                onChange={(e) => {
-                  setShowMe(Number(e.target.value));
-                }}
-                //   checked={`${isChecked === 1}` ? true : false}
-                checked={showMe === 1 ? "checked" : ""}
-              />
-              <label htmlFor="not_seen" className="ml">
-                Movies I Haven't Seen
-              </label>
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="2"
-                name="showme"
-                id="seen"
-                className="radio-input"
-                onChange={(e) => {
-                  setShowMe(Number(e.target.value));
-                }}
-                //   checked={`${isChecked === 2}` ? true : false}
-                checked={showMe === 2 ? "checked" : ""}
-              />
-              <label htmlFor="seen" className="ml">
-                Movies I Have Seen
-              </label>
-            </label>
-          </div>
-          {/* Show Me Div ends from here */}
+      </Box>
 
-          {/* Availabilities div starts from here */}
-          <Availability />
-          {/* Availabilities div ends from here */}
+      <Collapse in={filterIsOpen} timeout="auto" unmountOnExit>
+        <Box className="filter">
+          <Typography variant="h6">Show Me</Typography>
+          <RadioGroup
+            name="showme"
+            value={showMe.toString()}
+            onChange={(e) => setShowMe(Number(e.target.value))}
+          >
+            <FormControlLabel
+              value="0"
+              control={<Radio className="radio-input" />}
+              label="Everything"
+              id="everything"
+              htmlFor="everything"
+            />
+            <FormControlLabel
+              value="1"
+              control={<Radio className="radio-input" />}
+              label="Movies I Haven't Seen"
+              id="not_seen"
+              htmlFor="not_seen"
+            />
+            <FormControlLabel
+              value="2"
+              control={<Radio className="radio-input" />}
+              label="Movies I Have Seen"
+              id="seen"
+              htmlFor="seen"
+            />
+          </RadioGroup>
+        </Box>
 
-          {/* Release Date Section starts from here */}
-          <ReleaseDate />
-          {/* Release Date Section ends from here */}
-
-          {/* Genres Section starts from here */}
-          <Genres />
-          {/* Genres Section ends from here */}
-        </>
-      )}
-    </div>
+        <Availability />
+        <ReleaseDate />
+        <Genres />
+      </Collapse>
+    </Box>
   );
 }
 

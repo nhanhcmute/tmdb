@@ -1,86 +1,135 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import { Box, Typography, Link } from "@mui/material";
 import logo from "../../../assets/images/logo.svg";
 import addIcon from "../../../assets/images/add_icon.svg";
 import searchIcon from "../../../assets/images/search_icon.svg";
 
 function Header() {
   return (
-    <header className="header">
-      <div className="left-navbar">
-        <Link to="/" className="logo">
-          <img src={logo} alt="TMDB Logo" />
+    <Box component="header" className="header">
+      <Box className="left-navbar">
+        <Link component={RouterLink} to="/" className="logo" underline="none">
+          <Box
+            component="img"
+            src={logo}
+            alt="TMDB Logo"
+            sx={{ width: "154px", height: "20px", display: "block" }}
+          />
         </Link>
-        <ul className="navbar">
-          <li className="dropdown-movies">
-            <a href="#">Movies</a>
-            {/* dropdown menu on hover */}
-            <div className="dropdown-menu">
-              <Link to="/movie" className="nav-a">
+        <Box component="ul" className="navbar" sx={{ display: "flex", p: 0, m: 0, listStyle: "none" }}>
+          <Box component="li" className="dropdown-movies" sx={{ mr: "14px", position: "relative" }}>
+            <Link href="#" underline="none" sx={{ p: "0.5rem", cursor: "pointer", fontWeight: 600 }} >
+              Movies
+            </Link>
+            <Box className="dropdown-menu">
+              <Link component={RouterLink} to="/movie" className="nav-a" underline="none">
                 Popular
               </Link>
-              <Link to="/movie/now-playing" className="nav-a">
+              <Link component={RouterLink} to="/movie/now-playing" className="nav-a" underline="none">
                 Now Playing
               </Link>
-              <Link className="nav-a" to="movie/upcoming">
+              <Link component={RouterLink} to="movie/upcoming" className="nav-a" underline="none">
                 Upcoming
               </Link>
-              <Link className="nav-a" to="movie/top-rated">
+              <Link component={RouterLink} to="movie/top-rated" className="nav-a" underline="none">
                 Top Rated
               </Link>
-            </div>
-            {/* dropdown ends here */}
-          </li>
-          <li className="dropdown-tvshow">
-            <a href="#">TV Shows</a>
-            {/* dropdown of tv shows on hover */}
-            <div className="dropdown-menu-tv">
-              <Link to="/tv" className="nav-a">
+            </Box>
+          </Box>
+          <Box component="li" className="dropdown-tvshow" sx={{ mr: "14px", position: "relative" }}>
+            <Link href="#" underline="none" sx={{ p: "0.5rem", cursor: "pointer", fontWeight: 600 }}>
+              TV Shows
+            </Link>
+            <Box className="dropdown-menu-tv">
+              <Link component={RouterLink} to="/tv" className="nav-a" underline="none">
                 Popular
               </Link>
-              <Link to="/tv/airing-today" className="nav-a">
+              <Link component={RouterLink} to="/tv/airing-today" className="nav-a" underline="none">
                 Airing Today
               </Link>
-              <Link to="/tv/on-tv" className="nav-a">
+              <Link component={RouterLink} to="/tv/on-tv" className="nav-a" underline="none">
                 On TV
               </Link>
-              <Link to="/tv/top-rated" className="nav-a">
+              <Link component={RouterLink} to="/tv/top-rated" className="nav-a" underline="none">
                 Top Rated
               </Link>
-            </div>
-          </li>
-          <li>
-            <a href="#">People</a>
-          </li>
-          <li>
-            <a href="#">More</a>
-          </li>
-        </ul>
-      </div>
-      <div className="right-navbar">
-        <ul className="">
-          <li className="add-Icon">
-            <a href="#">
-              <img src={addIcon} alt="Add Icon" />
-            </a>
-          </li>
-          <li>
-            <div className="translate-lan">EN</div>
-          </li>
-          <li>
-            <a href="#">Login</a>
-          </li>
-          <li>
-            <a href="#">Join TMDB</a>
-          </li>
-          <li>
-            <a href="#">
-              <img src={searchIcon} alt="Search Icon" className="search-icon" />
-            </a>
-          </li>
-        </ul>
-      </div>
-    </header>
+            </Box>
+          </Box>
+          <Box component="li" sx={{ mr: "14px" }}>
+            <Link href="#" underline="none" sx={{ p: "0.5rem", cursor: "pointer", fontWeight: 600 }}>
+              People
+            </Link>
+          </Box>
+          <Box component="li">
+            <Link href="#" underline="none" sx={{ p: "0.5rem", cursor: "pointer", fontWeight: 600 }}>
+              More
+            </Link>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box className="right-navbar">
+        <Box component="ul" sx={{ display: "flex", alignItems: "center", p: 0, m: 0, listStyle: "none" }}>
+          <Box component="li" className="add-Icon" sx={{ ml: 0 }}>
+            <Link href="#" underline="none">
+              <Box
+                component="img"
+                src={addIcon}
+                alt="Add Icon"
+                sx={{ display: "block", width: "23px", height: "23px" }}
+              />
+            </Link>
+          </Box>
+          <Box component="li" sx={{ ml: "30px" }}>
+            <Box
+              className="translate-lan"
+              sx={{
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "28px",
+                height: "26px",
+                border: "1px solid #fff",
+                borderRadius: "3px",
+                p: "3px 5px",
+                color: "inherit",
+                fontSize: "0.9em",
+                userSelect: "none",
+                "&:hover": {
+                  bgcolor: "secondary.main",
+                  color: "primary.main",
+                },
+              }}
+            >
+              EN
+            </Box>
+          </Box>
+          <Box component="li" sx={{ ml: "30px" }}>
+            <Link href="#" underline="none" sx={{ fontWeight: 600 }}>
+              Login
+            </Link>
+          </Box>
+          <Box component="li" sx={{ ml: "30px" }}>
+            <Link href="#" underline="none" sx={{ fontWeight: 600 }}>
+              Join TMDB
+            </Link>
+          </Box>
+          <Box component="li" sx={{ ml: "30px" }}>
+            <Link href="#" underline="none">
+              <Box
+                component="img"
+                src={searchIcon}
+                alt="Search Icon"
+                className="search-icon"
+                sx={{ display: "block", width: "29px", height: "29px" }}
+              />
+            </Link>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

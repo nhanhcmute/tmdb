@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DropDown from "../UI/DropDown";
 import Chevron from "../../../assets/images/chevron_right.svg";
+import { Box, Typography, IconButton } from "@mui/material";
 
 const popularitySort = [
   { label: "Popularity Descending", value: "Popularity Descending" },
@@ -17,27 +18,39 @@ function Sort() {
   const [sortIsOpen, setSortIsOpen] = useState(true);
 
   return (
-    <div className="sort-div border-color-shadow">
-      <div
+    <Box className="sort-div border-color-shadow">
+      <Box
         className="name"
         onClick={() => {
           setSortIsOpen(!sortIsOpen);
         }}
+        sx={{ display: "flex", alignItems: "center", cursor: "pointer", justifyContent: "space-between" }}
       >
-        <h2>Sort</h2>
-        <img
-          className={`${!sortIsOpen && "closed"}`}
-          src={Chevron}
-          alt="chevron image"
-        />
-      </div>
+        <Typography variant="h5" component="h2">
+          Sort
+        </Typography>
+        <IconButton
+          size="small"
+          sx={{
+            transition: "transform 0.3s",
+            transform: sortIsOpen ? "rotate(0deg)" : "rotate(-90deg)",
+            padding: 0,
+          }}
+          aria-label="toggle sort"
+        >
+          <img src={Chevron} alt="chevron image" />
+        </IconButton>
+      </Box>
+
       {sortIsOpen && (
-        <div className="more-info-div">
-          <h3>Sort Results By</h3>
-          <DropDown popularitySort={popularitySort}></DropDown>
-        </div>
+        <Box className="more-info-div" sx={{ mt: 2 }}>
+          <Typography variant="h6" component="h3" gutterBottom>
+            Sort Results By
+          </Typography>
+          <DropDown popularitySort={popularitySort} />
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
 

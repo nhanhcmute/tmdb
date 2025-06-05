@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import {
   formatDate,
   generateMovieImage,
@@ -9,30 +11,31 @@ import CircularProgressBar from "./CircularProgressBar/CircularProgressBar";
 
 function Movie({ movie, addCard }) {
   return (
-    <div className={`single-movie ${addCard ? "add-border" : ""}`}>
+    <Box className={`single-movie ${addCard ? "add-border" : ""}`}>
       <Link to={getURL(movie)}>
-        <div className="movie-img-div">
-          <img
+        <Box className="movie-img-div" component="div">
+          <Box
+            component="img"
             loading="lazy"
             className={`movie-img${addCard ? " add-height" : ""}`}
             src={generateMovieImage(movie, addCard)}
             alt="movie"
             title={movie?.title ? movie.title : movie.name}
           />
-        </div>
+        </Box>
       </Link>
-      <div className={`movie-content-div${addCard ? " remove-height" : ""}`}>
+      <Box className={`movie-content-div${addCard ? " remove-height" : ""}`}>
         <CircularProgressBar movieVote={movie.vote_average} scale="false" />
         <Link to={getURL(movie)} className="hover-moviename">
           {movie?.title ? movie.title : movie.name}
         </Link>
-        <p>
+        <Typography component="p">
           {movie?.release_date
             ? formatDate(new Date(movie.release_date), false)
             : formatDate(new Date(movie.first_air_date), false)}
-        </p>
-      </div>
-    </div>
+        </Typography>
+      </Box>
+    </Box>
   );
 }
 

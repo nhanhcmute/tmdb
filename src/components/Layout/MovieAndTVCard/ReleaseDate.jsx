@@ -1,43 +1,31 @@
 import React, { useState } from "react";
+import { Box, Typography, FormControlLabel, Checkbox } from "@mui/material";
 
 function ReleaseDate() {
   const [allReleases, setAllReleases] = useState(true);
+
   return (
-    <div className="filter">
-      <h3 className="release-date-heading">Release Dates</h3>
-      <label>
-        <input
-          type="checkbox"
-          name="all-releases"
-          value="true"
-          id="all-releases"
-          className="availability-input"
-          checked={allReleases ? "checked" : ""}
-          onChange={() => setAllReleases(!allReleases)}
-        />
-        <label htmlFor="all-releases" className="ml">
-          Search all Releases?
-        </label>
-      </label>
+    <Box className="filter">
+      <Typography variant="h6" component="h3" className="release-date-heading">
+        Release Dates
+      </Typography>
 
-      {/* show only when user checks search all releases */}
-      {/* <label>
-        <input
-          type="checkbox"
-          name="all-release-countries"
-          className="availability-input"
-          value="true"
-          id="all-release-countries"
-        />
-        <label htmlFor="all-release-countries" className="ml">
-          Search all countries?
-        </label>
-      </label> */}
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={allReleases}
+            onChange={() => setAllReleases(!allReleases)}
+            name="all-releases"
+            id="all-releases"
+            className="availability-input"
+          />
+        }
+        label="Search all Releases?"
+        className="ml"
+        htmlFor="all-releases"
+      />
 
-      {/* date starts from here */}
-
-      {/* date ends from here */}
-    </div>
+    </Box>
   );
 }
 
